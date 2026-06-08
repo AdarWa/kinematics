@@ -15,7 +15,6 @@ namespace kinematics {
         std::vector<std::unique_ptr<Joint>> joints;
     public:
         void addJoint(std::unique_ptr<Joint> joint);
-
     };
 } // kinematics
 

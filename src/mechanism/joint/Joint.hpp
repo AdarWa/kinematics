@@ -5,6 +5,7 @@
 #ifndef KINEMATICS_JOINT_HPP
 #define KINEMATICS_JOINT_HPP
 #include <optional>
+#include <utility>
 
 #include "../../defs.hpp"
 
@@ -14,13 +15,13 @@ namespace kinematics {
         Translation3d origin;
         std::optional<Twist3d> twist;
         double theta;
-        virtual Twist3d calculateTwist();
     public:
         virtual ~Joint() = default;
-        explicit Joint(const Translation3d& origin_pose = Translation3d(), const double theta = 0) : origin(origin_pose), theta(theta) {}
+        explicit Joint(Translation3d  origin_pose = Translation3d(), const double theta = 0) : origin(std::move(origin_pose)), theta(theta) {}
+        virtual Twist3d calculateTwist() = 0;
         Pose3d calculatePose();
         void setTheta(double theta);
-        double getTheta() const;
+        [[nodiscard]] double getTheta() const;
 
     };
 } // kinematics
