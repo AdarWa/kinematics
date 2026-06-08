@@ -1,0 +1,8 @@
+//
+// Created by adarw on 6/7/26.
+//
+
+#ifndef KINEMATICS_ROTATIONS_HPP
+#define KINEMATICS_ROTATIONS_HPP
+
+#endif //KINEMATICS_ROTATIONS_HPP
