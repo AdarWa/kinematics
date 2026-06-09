@@ -4,7 +4,13 @@
 
 #include "Mechanism.hpp"
 
+#include "utils/MathUtils.hpp"
+
 namespace kinematics {
+    Mechanism::Mechanism(Pose3d& homePose) {
+        homeState = makeStateMatrix(homePose);
+    }
+
     void Mechanism::addJoint(std::unique_ptr<Joint> joint) {
         joints.push_back(std::move(joint));
     }

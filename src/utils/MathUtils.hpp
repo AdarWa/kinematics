@@ -9,7 +9,7 @@
 
 namespace kinematics {
     Eigen::Matrix3d makeSkewSymmetric(const Eigen::Vector3d& v);
-    Eigen::Matrix4d makeStateMatrix(const Vector6d& vec);
+    Eigen::Matrix4d makeStateMatrix(Vector6d& vec);
 }
 
 #endif //KINEMATICS_MATHUTILS_HPP

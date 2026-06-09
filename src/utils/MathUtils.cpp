@@ -13,7 +13,7 @@ namespace kinematics {
         return skew;
     }
 
-    Eigen::Matrix4d poseToMatrix(const Vector6d& vec) {
+    Eigen::Matrix4d makeStateMatrix(Vector6d& vec) {
         const Eigen::Vector3d translation(vec(0), vec(1), vec(2));
 
         const double roll  = vec(3); // Rotation around X
