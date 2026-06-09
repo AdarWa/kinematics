@@ -4,20 +4,19 @@
 
 #include "Joint.hpp"
 
+#include "../../utils/MathUtils.hpp"
+
 namespace kinematics {
     Transform Joint::calculateTransformation() {
         if (!twist) {
             twist = calculateTwist();
         }
 
-        Eigen::Vector3d omega = twist->tail<3>(); // angular component of twist
+        const Eigen::Vector3d omega = twist->tail<3>(); // angular component of twist
 
         const Eigen::Matrix3d I = Eigen::Matrix3d::Identity();
 
-        Eigen::Matrix3d omega_skew; // omega_hat
-        omega_skew <<   0.0,     -omega.z(),  omega.y(),
-                      omega.z(),   0.0,      -omega.x(),
-                     -omega.y(),  omega.x(),   0.0;
+        const Eigen::Matrix3d omega_skew = makeSkewSymmetric(omega); // omega_hat
 
         const Eigen::Matrix3d omega_skew_sq = omega_skew * omega_skew;
 
