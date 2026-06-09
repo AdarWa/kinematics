@@ -7,39 +7,20 @@
 #include <optional>
 #include <utility>
 
+#include "Transform.hpp"
 #include "../../defs.hpp"
+#include "mechanism/Transformable.hpp"
 
 namespace kinematics {
-    struct Transform {
-        Eigen::Vector3d translation;
-        Eigen::Matrix3d rotation;
-
-        Eigen::Matrix4d toMatrix() const {
-            Eigen::Matrix4d T = Eigen::Matrix4d::Identity();
-            T.block<3, 3>(0, 0) = rotation;
-            T.block<3, 1>(0, 3) = translation;
-            return T;
-        }
-
-        static Transform fromMatrix(Eigen::Matrix4d matrix) {
-            Transform t;
-            t.translation = matrix.block<3,1>(0,3);
-            t.rotation = matrix.block<3,3>(0,0);
-            return t;
-        }
-    };
-
-    class Joint {
+    class Joint : public Transformable {
     protected:
         Translation3d origin;
         std::optional<Twist3d> twist;
         double theta;
     public:
-        virtual ~Joint() = default;
         explicit Joint(Translation3d  origin_pose = Translation3d(), const double theta = 0) : origin(std::move(origin_pose)), theta(theta) {}
         virtual Twist3d calculateTwist() = 0;
-        Transform calculateTransformation();
-        Pose3d calculatePose();
+        Transform calculateTransformation() override;
         void setTheta(double newTheta);
         [[nodiscard]] double getTheta() const;
         Translation3d& getOrigin();

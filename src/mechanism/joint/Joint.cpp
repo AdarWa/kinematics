@@ -35,11 +35,6 @@ namespace kinematics {
         return transform;
     }
 
-    Pose3d Joint::calculatePose() {
-        Transform t = calculateTransformation();
-        return makePose3dFromTransform(t);
-    }
-
     void Joint::setTheta(const double newTheta) {
         this->theta = newTheta;
     }

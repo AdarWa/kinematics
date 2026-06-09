@@ -10,15 +10,14 @@
 #include "joint/Joint.hpp"
 
 namespace kinematics {
-    class Mechanism {
+    class Mechanism : public Transformable {
     private:
         std::vector<std::unique_ptr<Joint>> joints;
         Eigen::Matrix4d homeState;
     public:
         explicit Mechanism(Pose3d& homePose);
         void addJoint(std::unique_ptr<Joint> joint);
-        Transform calculateTransform() const;
-        Pose3d calculatePose() const;
+        Transform calculateTransformation() override;
     };
 } // kinematics
 
