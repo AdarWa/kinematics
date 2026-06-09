@@ -5,4 +5,16 @@
 #include "Mechanism.hpp"
 
 namespace kinematics {
+    void Mechanism::addJoint(std::unique_ptr<Joint> joint) {
+        joints.push_back(std::move(joint));
+    }
+
+    Transform Mechanism::calculateTransform() const {
+        Eigen::Matrix4d transform = Eigen::Matrix4d::Identity(); // T = T1*T2*Tn*g_st(0) PoE rule
+        for (const auto& joint : joints) {
+            transform *= joint->calculateTransformation().toMatrix();
+        }
+        transform *= homeState;
+        return Transform::fromMatrix(transform);
+    }
 } // kinematics

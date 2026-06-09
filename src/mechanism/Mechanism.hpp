@@ -7,14 +7,18 @@
 #include <memory>
 #include <vector>
 
+#include "../utils/MathUtils.hpp"
 #include "joint/Joint.hpp"
 
 namespace kinematics {
     class Mechanism {
     private:
         std::vector<std::unique_ptr<Joint>> joints;
+        Eigen::Matrix4d homeState;
     public:
+        explicit Mechanism(const Pose3d& homePose) : homeState(makeStateMatrix(homePose)){}
         void addJoint(std::unique_ptr<Joint> joint);
+        Transform calculateTransform() const;
     };
 } // kinematics
 
