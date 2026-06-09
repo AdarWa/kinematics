@@ -12,6 +12,7 @@ namespace kinematics {
             twist = calculateTwist();
         }
 
+        const Eigen::Vector3d linear = twist->head<3>(); // linear component of twist
         const Eigen::Vector3d omega = twist->tail<3>(); // angular component of twist
 
         const Eigen::Matrix3d I = Eigen::Matrix3d::Identity();
@@ -29,17 +30,15 @@ namespace kinematics {
                             std::sin(theta) * omega_skew +           // Rotation matrix
                             (1.0 - std::cos(theta)) * omega_skew_sq; // Rodrigues formula, same as e^(omega_hat*theta)
         Transform transform;
-        transform.translation = G;
+        transform.translation = G * linear;
         transform.rotation = R;
         return transform;
     }
 
     Pose3d Joint::calculatePose() {
-        auto [translation, rotation] = calculateTransformation(); // twist is guaranteed to be initialized
+        auto [translation, rotation] = calculateTransformation(); // twist is guaranteed to be initializeds
 
-        const Eigen::Vector3d linear = twist->head<3>(); // linear component of twist
-
-        const Eigen::Vector3d p = translation * linear; // position after transformation
+        const Eigen::Vector3d p = translation; // position after transformation
         const Eigen::Vector3d euler = rotation.eulerAngles(0, 1, 2); // rotation after transformation
 
         Pose3d pose;
@@ -54,5 +53,9 @@ namespace kinematics {
 
     double Joint::getTheta() const {
         return theta;
+    }
+
+    Translation3d& Joint::getOrigin() {
+        return origin;
     }
 } // kinematics
