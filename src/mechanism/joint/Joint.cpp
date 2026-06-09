@@ -36,15 +36,8 @@ namespace kinematics {
     }
 
     Pose3d Joint::calculatePose() {
-        auto [translation, rotation] = calculateTransformation(); // twist is guaranteed to be initializeds
-
-        const Eigen::Vector3d p = translation; // position after transformation
-        const Eigen::Vector3d euler = rotation.eulerAngles(0, 1, 2); // rotation after transformation
-
-        Pose3d pose;
-        pose << p, euler;
-
-        return pose;
+        Transform t = calculateTransformation();
+        return makePose3dFromTransform(t);
     }
 
     void Joint::setTheta(const double newTheta) {
