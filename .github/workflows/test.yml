@@ -22,14 +22,12 @@ jobs:
       - name: Setup Google Test
         uses: Bacondish2023/setup-googletest@v1
         with:
-          tag: v1.14.0
+          tag: v1.17.0
 
       - name: Build and Run Tests
         run: |
           mkdir build
           cd build
-          # Example using CMake. 
-          # Eigen is usually found via find_package(Eigen3) in CMakeLists.txt
           cmake .. 
           make
           ctest --output-on-failure
