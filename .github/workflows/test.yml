@@ -1,0 +1,35 @@
+name: test
+
+on:
+  push:
+    branches: [ "main"]
+  pull_request:
+    branches: [ "main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Eigen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libeigen3-dev
+
+      - name: Setup Google Test
+        uses: Bacondish2023/setup-googletest@v1
+        with:
+          tag: v1.14.0
+
+      - name: Build and Run Tests
+        run: |
+          mkdir build
+          cd build
+          # Example using CMake. 
+          # Eigen is usually found via find_package(Eigen3) in CMakeLists.txt
+          cmake .. 
+          make
+          ctest --output-on-failure
