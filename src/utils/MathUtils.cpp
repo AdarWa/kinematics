@@ -30,4 +30,14 @@ namespace kinematics {
         T.block<3, 1>(0, 3) = translation;
         return T;
     }
+
+    Pose3d makePose3dFromTransform(Transform& t) {
+        const Eigen::Vector3d p = t.translation; // position after transformation
+        const Eigen::Vector3d euler = t.rotation.eulerAngles(0, 1, 2); // rotation after transformation
+
+        Pose3d pose;
+        pose << p, euler;
+
+        return pose;
+    }
 }
