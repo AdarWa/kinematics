@@ -26,7 +26,7 @@ namespace kinematics {
         virtual Twist3d calculateTwist() = 0;
         Transform calculateTransformation();
         Pose3d calculatePose();
-        void setTheta(double theta);
+        void setTheta(double newTheta);
         [[nodiscard]] double getTheta() const;
 
     };
