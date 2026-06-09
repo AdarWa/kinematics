@@ -2,8 +2,8 @@
 // Created by adarw on 6/8/26.
 //
 
-#ifndef KINEMATICS_REVOLUTEJOINT_HPP
-#define KINEMATICS_REVOLUTEJOINT_HPP
+#ifndef KINEMATICS_PRISMATICJOINT_HPP
+#define KINEMATICS_PRISMATICJOINT_HPP
 #include "Joint.hpp"
 
 #include <utility>
@@ -20,4 +20,4 @@ namespace kinematics {
     };
 } // kinematics
 
-#endif //KINEMATICS_REVOLUTEJOINT_HPP
+#endif //KINEMATICS_PRISMATICJOINT_HPP
