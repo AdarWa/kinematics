@@ -10,6 +10,11 @@
 #include "../../defs.hpp"
 
 namespace kinematics {
+    struct Transform {
+        Eigen::Matrix3d translation;
+        Eigen::Matrix3d rotation;
+    };
+
     class Joint {
     protected:
         Translation3d origin;
@@ -19,6 +24,7 @@ namespace kinematics {
         virtual ~Joint() = default;
         explicit Joint(Translation3d  origin_pose = Translation3d(), const double theta = 0) : origin(std::move(origin_pose)), theta(theta) {}
         virtual Twist3d calculateTwist() = 0;
+        Transform calculateTransformation();
         Pose3d calculatePose();
         void setTheta(double theta);
         [[nodiscard]] double getTheta() const;
