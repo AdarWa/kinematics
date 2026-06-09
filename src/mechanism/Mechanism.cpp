@@ -10,7 +10,7 @@ namespace kinematics {
     }
 
     Transform Mechanism::calculateTransform() const {
-        Eigen::Matrix4d transform = Eigen::Matrix4d::Identity(); // T = T1*T2*Tn*g_st(0) PoE rule
+        Eigen::Matrix4d transform = Eigen::Matrix4d::Identity(); // T = T1*T2*...*Tn*g_st(0) PoE rule
         for (const auto& joint : joints) {
             transform *= joint->calculateTransformation().toMatrix();
         }
