@@ -13,6 +13,7 @@ namespace kinematics {
     typedef Eigen::Vector3d Translation3d;
     // [linear, angular]
     typedef Vector6d Twist3d;
+    constexpr double EPSILON = 1e-6;
 }
 
 #endif //KINEMATICS_DEFS_HPP

@@ -19,8 +19,8 @@ TEST(TransformTest, ToAndFromMatrix) {
     Eigen::Matrix4d mat = original.toMatrix();
     Transform recovered = Transform::fromMatrix(mat);
 
-    EXPECT_TRUE(original.translation.isApprox(recovered.translation, 1e-6));
-    EXPECT_TRUE(original.rotation.isApprox(recovered.rotation, 1e-6));
+    EXPECT_TRUE(original.translation.isApprox(recovered.translation, EPSILON));
+    EXPECT_TRUE(original.rotation.isApprox(recovered.rotation, EPSILON));
 }
 
 TEST(PrismaticJointTest, CalculateTransformation) {
@@ -31,8 +31,8 @@ TEST(PrismaticJointTest, CalculateTransformation) {
     PrismaticJoint joint(origin, axis, theta);
     Transform t = joint.calculateTransformation();
 
-    EXPECT_TRUE(t.translation.isApprox(Eigen::Vector3d(0, 0, 5.0), 1e-6));
-    EXPECT_TRUE(t.rotation.isApprox(Eigen::Matrix3d::Identity(), 1e-6));
+    EXPECT_TRUE(t.translation.isApprox(Eigen::Vector3d(0, 0, 5.0), EPSILON));
+    EXPECT_TRUE(t.rotation.isApprox(Eigen::Matrix3d::Identity(), EPSILON));
 }
 
 TEST(PrismaticJointTest, CalculatePose) {
@@ -60,10 +60,10 @@ TEST(RevoluteJointTest, CalculateTransformation) {
     Transform t = joint.calculateTransformation();
 
     // Origin is 0,0,0 so translation remains 0,0,0
-    EXPECT_TRUE(t.translation.isApprox(Eigen::Vector3d(0, 0, 0), 1e-6));
+    EXPECT_TRUE(t.translation.isApprox(Eigen::Vector3d(0, 0, 0), EPSILON));
 
     Eigen::Matrix3d expected_rot = Eigen::AngleAxisd(theta, axis).toRotationMatrix();
-    EXPECT_TRUE(t.rotation.isApprox(expected_rot, 1e-6));
+    EXPECT_TRUE(t.rotation.isApprox(expected_rot, EPSILON));
 }
 
 TEST(RevoluteJointTest, SetAndGetTheta) {
