@@ -23,4 +23,9 @@ namespace kinematics {
         transform *= homeState;
         return Transform::fromMatrix(transform);
     }
+
+    Pose3d Mechanism::calculatePose() const {
+        Transform t = calculateTransform();
+        return makePose3dFromTransform(t);
+    }
 } // kinematics

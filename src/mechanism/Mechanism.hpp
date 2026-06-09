@@ -18,6 +18,7 @@ namespace kinematics {
         explicit Mechanism(Pose3d& homePose);
         void addJoint(std::unique_ptr<Joint> joint);
         Transform calculateTransform() const;
+        Pose3d calculatePose() const;
     };
 } // kinematics
 
