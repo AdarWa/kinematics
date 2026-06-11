@@ -31,12 +31,15 @@ namespace kinematics::viewer {
 
         WorldCamera* camera;
         filament::View* view;
+        SDL_Window** sdl_window;
 
         std::unique_ptr<ModelProvider> modelProvider;
 
         //entities
         utils::Entity sun;
         std::vector<utils::Entity> entities;
+        bool running = true;
+        void renderView();
 
     public:
         explicit World();
@@ -44,6 +47,9 @@ namespace kinematics::viewer {
         ~World();
         utils::Entity& createSun(float intensity = 110000.0f);
         void injectEntity(utils::Entity entity);
+        void run();
+        void stop();
+        void handleResize(uint32_t width, uint32_t height);
     };
 }
 

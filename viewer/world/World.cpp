@@ -13,7 +13,8 @@ namespace kinematics {
             config.minCommandBufferSizeMB = 250;
             config.driverHandleArenaSizeMB = 250;
             const filament::Viewport viewport = {0,0,800,600};
-            void* nativeWindowHandler = setupNativeWindow("Kinematics Viewer", viewport.width, viewport.height);
+            sdl_window = nullptr;
+            void* nativeWindowHandler = setupNativeWindow("Kinematics Viewer", viewport.width, viewport.height, sdl_window);
 
             World(config, nativeWindowHandler, viewport);
         }
@@ -41,13 +42,16 @@ namespace kinematics {
             engine->destroy(sun);
             delete camera;
 
-            // TODO: Destroy all populated entities
+            for (const utils::Entity entity : entities) {
+                engine->destroy(entity);
+            }
 
             engine->destroy(view);
             engine->destroy(scene);
             engine->destroy(renderer);
             engine->destroy(swapChain);
             filament::Engine::destroy(&engine);
+            destroyWindow(*sdl_window);
         }
 
         utils::Entity& World::createSun(float intensity) {
@@ -61,8 +65,44 @@ namespace kinematics {
             return sun;
         }
 
-        void World::injectEntity(utils::Entity entity) {
+        void World::injectEntity(const utils::Entity entity) {
+            scene->addEntity(entity);
             entities.push_back(entity);
+        }
+
+        static void handleEvents(World* world) {
+            static SDL_Event event;
+            while (SDL_PollEvent(&event)) {
+                if (event.type == SDL_QUIT) world->stop();
+                if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    uint32_t w = event.window.data1;
+                    uint32_t h = event.window.data2;
+                    world->handleResize(w,h);
+                }
+            }
+        }
+
+        void World::renderView() {
+            if (renderer->beginFrame(swapChain)) {
+                renderer->render(view);
+                renderer->endFrame();
+            }
+        }
+
+        void World::run() {
+            while (running) {
+                handleEvents(this);
+                renderView();
+            }
+        }
+
+        void World::stop() {
+            running = false;
+        }
+
+        void World::handleResize(uint32_t width, uint32_t height) {
+            view->setViewport({0, 0, width, height});
+            camera->camera->setProjection(45.0, static_cast<double>(width) / height, 0.1, 100.0);
         }
     } // viewer
 } // kinematics
