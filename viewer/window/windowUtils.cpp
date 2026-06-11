@@ -21,9 +21,15 @@ namespace kinematics::viewer {
         return nullptr;
     }
 
-    void* setupNativeWindow(const char* title, int w, int h) {
+    void* setupNativeWindow(const char* title, int w, int h, SDL_Window** sdl_window) {
         SDL_Init(SDL_INIT_VIDEO);
         SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+        *sdl_window = window;
         return getNativeWindow(window);
+    }
+
+    void destroyWindow(SDL_Window* window) {
+        SDL_DestroyWindow(window);
+        SDL_Quit();
     }
 }
