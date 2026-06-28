@@ -16,10 +16,14 @@ namespace kinematics {
             sdl_window = nullptr;
             void* nativeWindowHandler = setupNativeWindow("Kinematics Viewer", viewport.width, viewport.height, sdl_window);
 
-            World(config, nativeWindowHandler, viewport);
+            initWorld(config, nativeWindowHandler, viewport);
         }
 
         World::World(filament::Engine::Config engineConfig, void* nativeWindowHandler, filament::Viewport viewport) {
+            initWorld(engineConfig, nativeWindowHandler, viewport);
+        }
+
+        void World::initWorld(filament::Engine::Config engineConfig, void* nativeWindowHandler, filament::Viewport viewport) {
             engine = filament::Engine::create(filament::Engine::Backend::DEFAULT, nullptr, nullptr, &engineConfig);
             swapChain = engine->createSwapChain(nativeWindowHandler);
             renderer = engine->createRenderer();

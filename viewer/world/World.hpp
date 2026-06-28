@@ -40,6 +40,7 @@ namespace kinematics::viewer {
         std::vector<utils::Entity> entities;
         bool running = true;
         void renderView();
+        void initWorld(filament::Engine::Config engineConfig, void* nativeWindowHandler, filament::Viewport viewport);
 
     public:
         explicit World();
