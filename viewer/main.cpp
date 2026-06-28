@@ -1,9 +1,12 @@
 //
-// Created by adarw on 6/11/26.
+// Created by adarw on 6/28/26.
 //
 
-#include <iostream>
 
-int main() {
-    std::cout << "Hello World!" << std::endl;
+#include "world/World.hpp"
+
+int main(int argc, char* argv[]) {
+    kinematics::viewer::World world;
+    world.loadModel("model_0.glb");
+    world.run();
 }

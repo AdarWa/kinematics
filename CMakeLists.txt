@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 # clang shit
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
+option(ENABLE_VIEWER "Enable kinematics viewer" ON)
+
 find_package(Eigen3 REQUIRED NO_MODULE)
 set(SOURCE_ROOT "${CMAKE_SOURCE_DIR}")
 
@@ -17,7 +19,12 @@ target_link_libraries(kinematics_core PUBLIC Eigen3::Eigen)
 
 target_include_directories(kinematics_core PUBLIC src)
 
-add_subdirectory(viewer)
+if(ENABLE_VIEWER)
+    message(STATUS "Building viewer is ENABLED.")
+    add_subdirectory(viewer)
+else()
+    message(STATUS "Building viewer is DISABLED.")
+endif()
 
 # Testing
 enable_testing()
