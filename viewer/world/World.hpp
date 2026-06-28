@@ -47,6 +47,8 @@ namespace kinematics::viewer {
         explicit World();
         explicit World(filament::Engine::Config engineConfig, void* nativeWindowHandler, filament::Viewport viewport);
         ~World();
+        World(const World&) = delete;
+        World& operator=(const World&) = delete;
         void injectEntity(utils::Entity entity);
         void run();
         void stop();
