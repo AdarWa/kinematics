@@ -12,13 +12,30 @@ namespace kinematics::viewer {
     static void* getNativeWindow(SDL_Window* window) {
         SDL_SysWMinfo wmi;
         SDL_VERSION(&wmi.version);
-        SDL_GetWindowWMInfo(window, &wmi);
+        if (!SDL_GetWindowWMInfo(window, &wmi)) {
+            return nullptr;
+        }
+
+        switch (wmi.subsystem) {
 #if defined(SDL_VIDEO_DRIVER_X11)
-        return (void*)wmi.info.x11.window;
-#elif defined(SDL_VIDEO_DRIVER_WAYLAND)
-        return (void*)wmi.info.wl.surface;
+        case SDL_SYSWM_X11:
+            return (void*)wmi.info.x11.window;
 #endif
-        return nullptr;
+#if defined(SDL_VIDEO_DRIVER_WAYLAND)
+        case SDL_SYSWM_WAYLAND:
+            return (void*)wmi.info.wl.surface;
+#endif
+#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+        case SDL_SYSWM_WINDOWS:
+            return (void*)wmi.info.win.window;
+#endif
+#if defined(SDL_VIDEO_DRIVER_COCOA)
+        case SDL_SYSWM_COCOA:
+            return (void*)wmi.info.cocoa.window;
+#endif
+        default:
+            return nullptr;
+        }
     }
 
     void* setupNativeWindow(const char* title, int w, int h, std::shared_ptr<SDL_Window*> sdl_window) {
