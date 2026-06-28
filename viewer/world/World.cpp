@@ -24,7 +24,7 @@ namespace kinematics {
         }
 
         void World::initWorld(filament::Engine::Config engineConfig, void* nativeWindowHandler, filament::Viewport viewport) {
-            engine = filament::Engine::create(filament::Engine::Backend::VULKAN, nullptr, nullptr, &engineConfig);
+            engine = filament::Engine::create(filament::Engine::Backend::OPENGL, nullptr, nullptr, &engineConfig);
             swapChain = engine->createSwapChain(nativeWindowHandler);
             renderer = engine->createRenderer();
             scene = engine->createScene();
@@ -40,9 +40,9 @@ namespace kinematics {
             camera->camera->lookAt({0.0, 0.0, 5.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
             camera->camera->setProjection(45.0, 800.0 / 600.0, 0.1, 100.0);
 
-            // modelProvider = std::make_unique<ModelProvider>(engine);
+            modelProvider = std::make_unique<ModelProvider>(engine);
 
-            // createSun();
+            createSun();
         }
 
         World::~World() {
