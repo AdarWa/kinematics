@@ -7,5 +7,6 @@
 
 int main(int argc, char* argv[]) {
     kinematics::viewer::World world;
+    world.loadModel("model_0.glb");
     world.run();
 }
