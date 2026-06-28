@@ -49,6 +49,7 @@ namespace kinematics::viewer {
         ~World();
         World(const World&) = delete;
         World& operator=(const World&) = delete;
+        void loadModel(const std::string& file);
         void injectEntity(utils::Entity entity);
         void run();
         void stop();

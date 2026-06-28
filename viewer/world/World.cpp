@@ -37,7 +37,7 @@ namespace kinematics {
             view->setViewport(viewport);
             renderer->setClearOptions({.clearColor = {0.1f, 0.15f, 0.25f, 1.0f}, .clear = true});
 
-            camera->camera->lookAt({0.0, 0.0, 5.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
+            camera->camera->lookAt({0.0, 0.0, 2.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
             camera->camera->setProjection(45.0, 800.0 / 600.0, 0.1, 100.0);
 
             modelProvider = std::make_unique<ModelProvider>(engine);
@@ -73,6 +73,12 @@ namespace kinematics {
                 .build(*engine, sun);
             scene->addEntity(sun);
             return sun;
+        }
+
+
+        void World::loadModel(const std::string& file) {
+            const filament::gltfio::FilamentAsset* asset = modelProvider->loadAsset(file);
+            scene->addEntities(asset->getEntities(), asset->getEntityCount());
         }
 
         void World::injectEntity(const utils::Entity entity) {
