@@ -13,7 +13,7 @@ namespace kinematics {
             config.minCommandBufferSizeMB = 250;
             config.driverHandleArenaSizeMB = 250;
             const filament::Viewport viewport = {0,0,800,600};
-            sdl_window = nullptr;
+            sdl_window = std::make_shared<SDL_Window*>();
             void* nativeWindowHandler = setupNativeWindow("Kinematics Viewer", viewport.width, viewport.height, sdl_window);
 
             initWorld(config, nativeWindowHandler, viewport);
@@ -39,6 +39,10 @@ namespace kinematics {
 
             camera->camera->lookAt({0.0, 0.0, 5.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
             camera->camera->setProjection(45.0, 800.0 / 600.0, 0.1, 100.0);
+
+            modelProvider = std::make_unique<ModelProvider>(engine);
+
+            createSun();
         }
 
         World::~World() {
