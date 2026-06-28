@@ -5,7 +5,11 @@
 #ifndef KINEMATICS_MODELPROVIDER_HPP
 #define KINEMATICS_MODELPROVIDER_HPP
 
+
+#include <memory>
+#include <string>
 #include <vector>
+#include <filament/Engine.h>
 #include <gltfio/AssetLoader.h>
 #include <gltfio/ResourceLoader.h>
 #include <gltfio/MaterialProvider.h>

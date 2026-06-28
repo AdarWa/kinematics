@@ -38,7 +38,7 @@ namespace kinematics {
             renderer->setClearOptions({.clearColor = {0.1f, 0.15f, 0.25f, 1.0f}, .clear = true});
 
             camera->camera->lookAt({0.0, 0.0, 2.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
-            camera->camera->setProjection(45.0, 800.0 / 600.0, 0.1, 100.0);
+            camera->camera->setProjection(45.0, static_cast<double>(viewport.width) / viewport.height, 0.1, 100.0);
 
             modelProvider = std::make_unique<ModelProvider>(engine);
 
@@ -50,6 +50,8 @@ namespace kinematics {
             engine->destroy(view);
             engine->destroy(scene);
 
+            modelProvider.reset();
+
             engine->destroy(sun);
             delete camera;
 
@@ -60,8 +62,11 @@ namespace kinematics {
             engine->destroy(renderer);
             engine->destroy(swapChain);
 
+
             filament::Engine::destroy(&engine);
-            destroyWindow(*sdl_window);
+            if (sdl_window && *sdl_window) {
+                destroyWindow(*sdl_window);
+            }
         }
 
         utils::Entity& World::createSun(float intensity) {

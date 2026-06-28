@@ -4,7 +4,10 @@
 
 #include "ModelProvider.hpp"
 
+#include <algorithm>
+#include <format>
 #include <fstream>
+#include <stdexcept>
 
 #include "utils/EntityManager.h"
 
@@ -45,7 +48,7 @@ namespace kinematics {
             return buffer;
         }
 
-        filament::gltfio::FilamentAsset* ModelProvider::loadAsset(std::string file) {\
+        filament::gltfio::FilamentAsset* ModelProvider::loadAsset(std::string file) {
             filament::gltfio::FilamentAsset* asset = nullptr;
 
             std::vector<uint8_t> fileBuffer = loadFile(file);

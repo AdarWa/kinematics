@@ -20,8 +20,12 @@ namespace kinematics::viewer {
             camera = engine->createCamera(entity);
         }
         ~WorldCamera() {
-            if (camera) {
-                engine->destroyCameraComponent(entity); // <--- Use the dedicated Camera destroyer
+            if (engine) {
+                if (camera) {
+                    engine->destroyCameraComponent(entity);
+                    camera = nullptr;
+                }
+                engine->destroy(entity);
             }
         }
     };

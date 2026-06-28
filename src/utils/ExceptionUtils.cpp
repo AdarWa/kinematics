@@ -7,7 +7,7 @@
 #include <iostream>
 #include <ostream>
 
-void kinematics::printException(std::exception exception, bool hasDetails, const char* file, const char* func,
+void kinematics::printException(std::exception& exception, bool hasDetails, const char* file, const char* func,
                                 int line) {
     std::cerr << "Exception caught: " << exception.what();
     if (hasDetails) {

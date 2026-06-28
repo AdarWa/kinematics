@@ -8,7 +8,7 @@
 #include <filament/TransformManager.h>
 #include <math/mat4.h>
 #include <math/vec3.h>
-
+#include <stdexcept>
 #include "utils/Entity.h"
 #include "utils/EntityManager.h"
 #include "utils/ExceptionUtils.hpp"

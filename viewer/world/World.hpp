@@ -4,6 +4,9 @@
 
 #ifndef KINEMATICS_WORLD_HPP
 #define KINEMATICS_WORLD_HPP
+#include <memory>
+#include <string>
+#include <vector>
 #include <filament/Engine.h>
 #include <filament/Renderer.h>
 #include <filament/Scene.h>

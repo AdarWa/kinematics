@@ -6,11 +6,13 @@
 #define KINEMATICS_TRANSFORMUTILS_HPP
 
 #include "filament/Engine.h"
+#include <math/mat4.h>
+#include <utils/Entity.h>
 
 namespace kinematics::viewer {
 
     utils::Entity groupEntities(filament::Engine* engine, utils::Entity* entities, int count);
-    void teleportEntity(filament::Engine* engine, utils::Entity entity, filament::math::mat4f transform);
+    void teleportEntity(filament::Engine* engine, utils::Entity& entity, filament::math::mat4f transform);
     void transformEntity(filament::Engine* engine, utils::Entity& entity, filament::math::mat4f& transform);
 }
 
