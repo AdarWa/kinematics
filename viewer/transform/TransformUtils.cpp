@@ -58,4 +58,26 @@ namespace kinematics::viewer {
         KINEMATICS_CATCH
     }
 
+    filament::math::mat4f transforms::makeXYZTransform(float x, float y, float z) {
+        return filament::math::mat4f::translation(filament::math::float3{x, y, z});
+    }
+
+    /**
+     *
+     * @param roll roll angle in radians
+     * @param pitch pitch angle in radians
+     * @param yaw yaw angle in radians
+     * @return A rotation matrix
+     */
+    filament::math::mat4f transforms::makeEulerAngleTransform(float roll, float pitch, float yaw) {
+        filament::math::mat4f rRoll  = filament::math::mat4f::rotation(roll,  filament::math::float3{0.0f, 0.0f, 1.0f});
+        filament::math::mat4f rPitch = filament::math::mat4f::rotation(pitch, filament::math::float3{1.0f, 0.0f, 0.0f});
+        filament::math::mat4f rYaw   = filament::math::mat4f::rotation(yaw,   filament::math::float3{0.0f, 1.0f, 0.0f});
+
+        return rYaw * rPitch * rRoll;
+    }
+
+    filament::math::mat4f transforms::makeScaleTransform(float scale) {
+        return filament::math::mat4f::scaling(filament::math::float3{scale});
+    }
 }
