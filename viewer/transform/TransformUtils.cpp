@@ -14,7 +14,7 @@
 #include "utils/ExceptionUtils.hpp"
 
 namespace kinematics::viewer {
-    static filament::TransformManager::Instance getEntityInstance(filament::TransformManager& tcm, utils::Entity& entity) {
+    static filament::TransformManager::Instance getEntityInstance(filament::TransformManager& tcm, const utils::Entity& entity) {
         auto instance = tcm.getInstance(entity);
         if (!instance.isValid()) {
             throw std::runtime_error("Caught invalid entity!");
@@ -22,7 +22,7 @@ namespace kinematics::viewer {
         return instance;
     }
 
-    utils::Entity groupEntities(filament::Engine* engine, utils::Entity* entities, int count) {
+    utils::Entity groupEntities(filament::Engine* engine, const utils::Entity* entities, int count) {
         auto& tcm = engine->getTransformManager();
         utils::Entity groupRoot = utils::EntityManager::get().create();
         tcm.create(groupRoot);
@@ -53,8 +53,8 @@ namespace kinematics::viewer {
         filament::TransformManager& tcm = engine->getTransformManager();
 
         KINEMATICS_TRY
-        filament::math::mat4f currTransform = tcm.getTransform(getEntityInstance(tcm, entity));
-        teleportEntity(engine, entity, currTransform*transform);
+        filament::math::mat4f currTransform = tcm.getTransform(getEntityInstance(tcm, entity)) *transform;
+        teleportEntity(engine, entity, currTransform);
         KINEMATICS_CATCH
     }
 

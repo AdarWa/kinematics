@@ -11,8 +11,8 @@
 
 namespace kinematics::viewer {
 
-    utils::Entity groupEntities(filament::Engine* engine, utils::Entity* entities, int count);
-    void teleportEntity(filament::Engine* engine, utils::Entity& entity, filament::math::mat4f transform);
+    utils::Entity groupEntities(filament::Engine* engine, const utils::Entity* entities, int count);
+    void teleportEntity(filament::Engine* engine, utils::Entity& entity, filament::math::mat4f& transform);
     void transformEntity(filament::Engine* engine, utils::Entity& entity, filament::math::mat4f& transform);
 }
 
