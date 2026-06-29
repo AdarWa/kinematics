@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 project(kinematics)
 
 set(CMAKE_CXX_STANDARD 20)
+project(kinematics LANGUAGES CXX)
 
 # clang shit
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
@@ -14,6 +15,9 @@ set(SOURCE_ROOT "${CMAKE_SOURCE_DIR}")
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp")
 
 add_library(kinematics_core STATIC ${SOURCES})
+
+target_compile_options(kinematics_core PRIVATE "-stdlib=libc++")
+target_link_options(kinematics_core PRIVATE "-stdlib=libc++")
 
 target_link_libraries(kinematics_core PUBLIC Eigen3::Eigen)
 
