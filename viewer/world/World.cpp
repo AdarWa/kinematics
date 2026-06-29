@@ -4,8 +4,14 @@
 
 #include "World.hpp"
 
+#include "../transform/AssetFactory.hpp"
 #include "../transform/TransformUtils.hpp"
 #include "../window/windowUtils.hpp"
+#include "filament/Camera.h"
+#include "filament/LightManager.h"
+#include "filament/Scene.h"
+#include "filament/View.h"
+#include "filament/Viewport.h"
 
 namespace kinematics {
     namespace viewer {
@@ -43,6 +49,8 @@ namespace kinematics {
 
             modelProvider = std::make_unique<ModelProvider>(engine);
 
+            AssetFactory::getInstance().initialize(engine);
+
             createSun();
         }
 
@@ -59,6 +67,8 @@ namespace kinematics {
             for (const utils::Entity entity : entities) {
                 engine->destroy(entity);
             }
+
+            AssetFactory::getInstance().shutdown();
 
             engine->destroy(renderer);
             engine->destroy(swapChain);
@@ -127,6 +137,10 @@ namespace kinematics {
         void World::handleResize(uint32_t width, uint32_t height) {
             view->setViewport({0, 0, width, height});
             camera->camera->setProjection(45.0, static_cast<double>(width) / height, 0.1, 100.0);
+        }
+
+        filament::Engine* World::getEngine() const {
+            return engine;
         }
     } // viewer
 } // kinematics
