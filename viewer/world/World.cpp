@@ -40,12 +40,13 @@ namespace kinematics {
 
             view = engine->createView();
             view->setScene(scene);
-            view->setCamera(camera->camera);
+            camera->assignCamera(view);
             view->setViewport(viewport);
             renderer->setClearOptions({.clearColor = {0.1f, 0.15f, 0.25f, 1.0f}, .clear = true});
 
-            camera->camera->lookAt({0.0, 0.0, 2.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0});
-            camera->camera->setProjection(45.0, static_cast<double>(viewport.width) / viewport.height, 0.1, 100.0);
+            camera->setLookAtPosition({0.0, 0.0, 0.0});
+            camera->setPosition({0.0, 1.0, 2.0});
+            camera->handleResize(viewport.width, viewport.height);
 
             modelProvider = std::make_unique<ModelProvider>(engine);
 
@@ -85,7 +86,7 @@ namespace kinematics {
             filament::LightManager::Builder(filament::LightManager::Type::DIRECTIONAL)
                 .color(filament::Color::toLinear<filament::ACCURATE>(filament::sRGBColor(1.0f, 1.0f, 1.0f)))
                 .intensity(intensity)
-                .direction({0.5f, -1.0f, -0.5f})
+                .direction({-0.5f, -1.0f, -0.5f})
                 .build(*engine, sun);
             scene->addEntity(sun);
             return sun;
@@ -136,11 +137,15 @@ namespace kinematics {
 
         void World::handleResize(uint32_t width, uint32_t height) {
             view->setViewport({0, 0, width, height});
-            camera->camera->setProjection(45.0, static_cast<double>(width) / height, 0.1, 100.0);
+            camera->handleResize(width, height);
         }
 
         filament::Engine* World::getEngine() const {
             return engine;
+        }
+
+        WorldCamera* World::getWorldCamera() const {
+            return camera;
         }
     } // viewer
 } // kinematics

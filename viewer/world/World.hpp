@@ -43,12 +43,14 @@ namespace kinematics::viewer {
         ~World();
         World(const World&) = delete;
         World& operator=(const World&) = delete;
+
         utils::Entity loadModel(const std::string& file);
         void injectEntity(utils::Entity entity);
         void run();
         void stop();
         void handleResize(uint32_t width, uint32_t height);
         filament::Engine* getEngine() const;
+        WorldCamera* getWorldCamera() const;
     };
 }
 
