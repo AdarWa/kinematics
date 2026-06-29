@@ -4,6 +4,7 @@
 
 #include "World.hpp"
 
+#include "../transform/TransformUtils.hpp"
 #include "../window/windowUtils.hpp"
 
 namespace kinematics {
@@ -81,9 +82,11 @@ namespace kinematics {
         }
 
 
-        void World::loadModel(const std::string& file) {
+        utils::Entity World::loadModel(const std::string& file) {
             const filament::gltfio::FilamentAsset* asset = modelProvider->loadAsset(file);
             scene->addEntities(asset->getEntities(), asset->getEntityCount());
+            const utils::Entity root = groupEntities(engine, asset->getEntities(), asset->getEntityCount());
+            return root;
         }
 
         void World::injectEntity(const utils::Entity entity) {
