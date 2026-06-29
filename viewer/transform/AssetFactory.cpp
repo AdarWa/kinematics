@@ -19,14 +19,14 @@ namespace kinematics::viewer {
 
     void AssetFactory::initialize(filament::Engine* enginePtr, const std::string& baseMaterialPath) {
         if (this->engine != nullptr) {
-            std::cerr << "[AssetFactory] Warning: Already initialized!" << std::endl;
+            std::cerr << "[AssetFactory] Already initialized!" << std::endl;
             return;
         }
         this->engine = enginePtr;
 
         std::ifstream file(baseMaterialPath, std::ios::binary | std::ios::ate);
         if (!file.is_open()) {
-            std::cerr << "[AssetFactory] CRITICAL: Failed to open material at: " << baseMaterialPath << std::endl;
+            std::cerr << "[AssetFactory] Failed to open material at: " << baseMaterialPath << std::endl;
             return;
         }
 
@@ -35,7 +35,7 @@ namespace kinematics::viewer {
 
         std::vector<char> buffer(size);
         if (!file.read(buffer.data(), size)) {
-            std::cerr << "[AssetFactory] CRITICAL: Failed to read material bytes!" << std::endl;
+            std::cerr << "[AssetFactory] Failed to read material bytes!" << std::endl;
             return;
         }
 
@@ -54,7 +54,7 @@ namespace kinematics::viewer {
             inst->setParameter("baseColor", color);
             inst->setParameter("metallic", metallic);
             inst->setParameter("roughness", roughness);
-            inst->setParameter("reflectance", 0.2f);
+            inst->setParameter("reflectance", 0.6f);
             materials[type] = inst;
         };
 
@@ -63,7 +63,7 @@ namespace kinematics::viewer {
         createInstance(BasicMaterialType::DEBUG_RED,     {0.90f, 0.10f, 0.10f, 1.0f}, 0.0f, 0.4f);
         createInstance(BasicMaterialType::DEBUG_GREEN,   {0.10f, 0.90f, 0.10f, 1.0f}, 0.0f, 0.4f);
         createInstance(BasicMaterialType::DEBUG_BLUE,    {0.10f, 0.10f, 0.90f, 1.0f}, 0.0f, 0.4f);
-        createInstance(BasicMaterialType::METALLIC_GOLD, {1.00f, 0.76f, 0.33f, 1.0f}, 1.0f, 0.2f);
+        createInstance(BasicMaterialType::METALLIC_GOLD, {1.00f, 0.76f, 0.33f, 1.0f}, 0.8f, 0.8f);
     }
 
     utils::Entity AssetFactory::createCuboid(BasicMaterialType matType, filament::math::float3 size) {
@@ -73,13 +73,13 @@ namespace kinematics::viewer {
         float hy = size.y * 0.5f;
         float hz = size.z * 0.5f;
 
-        // Heap-allocated because the coordinates change dynamically based on `size`
+        // Heap-allocated because the coordinates change dynamically based on size
         auto* rawVerts = new filament::math::float3[8]{
             {-hx, -hy,  hz}, { hx, -hy,  hz}, {-hx,  hy,  hz}, { hx,  hy,  hz},
             {-hx, -hy, -hz}, { hx, -hy, -hz}, {-hx,  hy, -hz}, { hx,  hy, -hz}
         };
 
-        // Static because cuboid topology (0 connects to 1, etc) never changes
+        // Static because cuboid topology never changes
         static const uint16_t CUBOID_INDICES[36] = {
             0,1,2, 2,1,3,  1,5,3, 3,5,7,  5,4,7, 7,4,6,
             4,0,6, 6,0,2,  2,3,6, 6,3,7,  4,5,0, 0,5,1
